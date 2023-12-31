@@ -1,27 +1,29 @@
-import {useState,useEffect} from 'react';
+// import {useState,useEffect} from 'react';
+import React from 'react';
 import AddUser from './AddUser';
 import DisplayUser from './DisplayUser' ;
 import {User,UserLedger,transactionStates,Transaction,TransactionLedger} from '../Controller/controller';
 import MakeTransaction from './MakeTransaction';
 import DisplayTransaction from './DisplayTransaction';
-
+import {useState} from 'react';
+import {useEffect} from 'react';
 
 const components={
     addUser:"ADD USER",
     displayUser:"DISPLAY USER",
     makeTransaction:"MAKE TRANSACTION",
-    displayTRANSACTION:"DISPLAY TRANSACTION"
+    displayTransaction:"DISPLAY TRANSACTION"
 }
 
-export  default  function MainComponent()
+function MainComponent()
  {
-  const [activeComponent,setActiveComponent]=useState(components.addUser);
   const[addUserForm,setAddUserForm]=useState({
     name:"",
     number:0,
     startingBalance:0,
     currentBalance:0,
   })  
+  const[activeComponent,setActiveComponent]=useState(components.addUser);
   const [userLedger,setUserLedger]=useState(new UserLedger())
   const[makeTransaction,setMakeTransaction]=useState({
     id:"",
@@ -60,17 +62,43 @@ export  default  function MainComponent()
   function addTransaction()
   {
     const transaction=new Transaction(makeTransaction.id,makeTransaction.amount,makeTransaction.sender,makeTransaction.receiver);
-    transactionLedger.addTransaction(transaction);
+    transaction.addToLedger(transactionLedger);
+    // transactionLedger.addTransaction(transaction);
     setTransactionLedger(transactionLedger);
+    console.log("tyyyy")
   }
   useEffect(()=>{
    
   },[userLedger])
+  useEffect(()=>{
+   console.log("main")
+  },[transactionLedger])
+
+  // const[,updateState]=useState();
+  // const forceUpdate=React.useCallback(()=>updateState(),console.log("force"),[]);
+  // function update(type){
+  //  updateTransaction(type);
+  //  //setTransactionLedger(makeTransaction)
+  // }
+
+  // useEffect(()=>{
+  //   // setTransactionLedger(transactionLedger)
+  //   setMakeTransaction(makeTransaction);
+  // },[transactionLedger])
+  // useEffect(()=>{
+   
+  // },[makeTransaction])
+  // useEffect(()=>{
+   
+  // },[setMakeTransaction])
+  // setTransactionLedger(Transaction);
   // useEffect(()=>{
   //  setMakeTransaction(Transaction());
   // },[transactionLedger])
   
- // setMakeTransaction(Transaction());
+//  setTransactionLedger(makeTransaction);
+
+
     return(
         <div style={{margin:"5% 10%"}}>
             <h1 style={{textAlign:"center"}}>Entri Bank -B11 Branch</h1>
@@ -94,3 +122,4 @@ export  default  function MainComponent()
         </div>
     )
  }
+ export default MainComponent;

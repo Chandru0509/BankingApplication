@@ -69,12 +69,12 @@ function changeTransactionType(type){
         transactionStates[data]===type);
     return fil.length>0;
 }
-Transaction.prototype.updateTransaction=function(type)
+ Transaction.prototype.updateTransaction=function(type)
 {
     if(changeTransactionType(type))
     {
         this.status=type;
-        console.log("hi")  
+        console.log("this.status");  
     }
     else{
         throw new Error("Transaction Type Not matching");
@@ -89,6 +89,14 @@ export  function Transaction(id,amount,sender,receiver)
     this.receiver=receiver;
     this.status=transactionStates.pending;
     this.date=new Date().toISOString();
+    // if(changeTransactionType(type))
+    // {
+    //     this.status=type;
+    //     console.log("hi")  
+    // }
+    // else{
+    //     throw new Error("Transaction Type Not matching");
+    // }
 }
 
 export function TransactionLedger(){
@@ -99,7 +107,7 @@ TransactionLedger.prototype.addTransaction=function(transaction)
 {
     if(transaction instanceof Transaction)
     {
-this.transactions.push(transaction);
+      this.transactions.push(transaction);
     }
     else{
         throw new Error({message:"Transaction type must be Transaction"})
@@ -113,7 +121,14 @@ TransactionLedger.prototype.getSuccessfulTransactions=function()
     })
     return fil;
 }
-
+Transaction.prototype.addToLedger=function(ledger)
+{
+    if(ledger instanceof TransactionLedger)
+    {
+        ledger.addTransaction(this)
+        
+    }
+}
 
 
 
